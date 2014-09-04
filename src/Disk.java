@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class Disk implements Comparable<Disk>
 {
+    public static final int MAX_CAPACITY = 1000000;
     private int myId;
     private int mySize;
     private int myCapacity;
@@ -17,9 +18,7 @@ public class Disk implements Comparable<Disk>
      */
     public Disk ()
     {
-        mySize = 0;
-        myCapacity = 1000000;
-        myFiles = new ArrayList<Integer>();
+        this(0);
     }
 
     /**
@@ -29,7 +28,7 @@ public class Disk implements Comparable<Disk>
     {
         myId = id;
         mySize = 0;
-        myCapacity = 1000000;
+        myCapacity = MAX_CAPACITY;
         myFiles = new ArrayList<Integer>();
     }
 
@@ -79,15 +78,8 @@ public class Disk implements Comparable<Disk>
     @Override
     public boolean equals (Object other)
     {
-        if (other != null && other instanceof Disk)
-        {
-            if (myId == ((Disk) other).myId)
-                return true;
-            else 
-                return false;
-        }
-        else 
-            return false;
+        return other != null && other instanceof Disk && 
+               myId == ((Disk)other).myId;
     }
 
     /**
