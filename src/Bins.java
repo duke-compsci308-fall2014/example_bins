@@ -47,8 +47,9 @@ public class Bins
     }
 
     // add files to the collection of Disks
-    private void addFiles (List<Integer> data, PriorityQueue<Disk> pq)
+    private Collection<Disk> addFiles (List<Integer> data)
     {
+        PriorityQueue<Disk> pq = new PriorityQueue<>();
         int diskId = 1;
         for (Integer size : data)
         {
@@ -67,20 +68,33 @@ public class Bins
                 pq.add(d2);
             }
         }
+        return pq;
     }
 
     // add contents of given pq and a header, description
-    private void printResults (PriorityQueue<Disk> pq, String description)
+    private void printResults (Collection<Disk> disks, String description)
     {
         System.out.println();
         System.out.println("\n" + description + " method");
-        System.out.println("number of disks used: " + pq.size());
-        PriorityQueue<Disk> copy = new PriorityQueue<>(pq);
-        while (!copy.isEmpty())
+        System.out.println("number of disks used: " + disks.size());
+        for (Disk d : disks)
         {
-            System.out.println(copy.poll());
+            System.out.println(d);
         }
     }
+
+    // try the worst fit algorithm and also show the results
+    private void addFilesAndPrintResults (List<Integer> data, String description)
+    {
+        List<Integer> copy = new ArrayList<>(data);
+        if (description.equals(WORST_FIT_DECREASING))
+        {
+            Collections.sort(copy, Collections.reverseOrder());
+        }
+        Collection<Disk> disks = addFiles(data);
+        printResults(disks, description);
+    }
+
 
     /**
      * The main program.
@@ -95,13 +109,8 @@ public class Bins
             int total = b.sum(data);
             System.out.println("total size = " + total / 1000000.0 + "GB");
 
-            PriorityQueue<Disk> pq = new PriorityQueue<>();
-            b.addFiles(data, pq);
-            b.printResults(pq, WORST_FIT);
-            List<Integer> copy = new ArrayList<>(data);
-            Collections.sort(copy, Collections.reverseOrder());
-            b.addFiles(copy, pq);
-            b.printResults(pq, WORST_FIT_DECREASING);
+            b.addFilesAndPrintResults(data, WORST_FIT);
+            b.addFilesAndPrintResults(data, WORST_FIT_DECREASING);
         }
         catch (FileNotFoundException e)
         {
