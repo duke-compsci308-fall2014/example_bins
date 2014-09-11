@@ -57,23 +57,19 @@ public class WorstFitAlgorithm
     private Collection<Disk> addFiles (List<Integer> data)
     {
         PriorityQueue<Disk> pq = new PriorityQueue<>();
-        int diskId = 1;
         for (Integer size : data)
         {
             Disk d = pq.peek();
             if (d != null && d.freeSpace() >= size)
             {
                 pq.poll();
-                d.add(size);
-                pq.add(d);
             }
             else
             {
-                Disk d2 = new Disk(diskId);
-                diskId++;
-                d2.add(size);
-                pq.add(d2);
+                d = new Disk();
             }
+            d.add(size);
+            pq.add(d);
         }
         return pq;
     }

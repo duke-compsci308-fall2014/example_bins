@@ -7,7 +7,11 @@ import java.util.List;
  */
 public class Disk implements Comparable<Disk>
 {
+    // constant
     public static final int MAX_CAPACITY = 1000000;
+    // class variable
+    private static int ourId = 0;
+    // instance variables
     private int myId;
     private int mySize;
     private int myCapacity;
@@ -18,18 +22,10 @@ public class Disk implements Comparable<Disk>
      */
     public Disk ()
     {
-        this(0);
-    }
-
-    /**
-     * Create an empty Disk with the given ID.
-     */
-    public Disk (int id)
-    {
-        myId = id;
         mySize = 0;
         myCapacity = MAX_CAPACITY;
         myFiles = new ArrayList<Integer>();
+        myId = ourId++;
     }
 
     /**
